@@ -1,22 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| ROUTES  — the front door of a Laravel app
-|--------------------------------------------------------------------------
-| Every request (URL + HTTP verb) is matched against this list.
-| The first route that matches decides who handles it:
-|   - a closure (small function written right here), or
-|   - a controller method   [SomeController::class, 'method']
-|
-| See every route:   php artisan route:list
-*/
-
-// Lesson 1: the home page. A closure that returns a view (resources/views/home.blade.php).
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\StudentController;
+// Home page
 Route::get('/', function () {
     return view('home');
 });
 
-// Lessons 2-6: you will add your routes below this line.
+// Hello route
+Route::get('/hello/{your_name}', function ($your_name) {
+    return "Hello, " . $your_name;
+});
+
+// About route using controller
+Route::get('/about', [AboutController::class, 'index']);
+Route::resource('students', StudentController::class);
+Route::get('/roll/{your_roll}', function (App\Models\Student $student) {
+    return view('students.show', compact('student'));
+});
